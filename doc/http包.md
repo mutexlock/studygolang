@@ -70,3 +70,66 @@ s := &http.Server{
 }
 log.Fatal(s.ListenAndServe())
 ```
+
+# ListenAndServe
+
+ListenAndServe是进行Tcp监听，并且Serve
+```
+func (srv *Server) ListenAndServe() error {
+	addr := srv.Addr
+	if addr == "" {
+		addr = ":http"
+	}
+	ln, err := net.Listen("tcp", addr)
+	if err != nil {
+		return err
+	}
+	return srv.Serve(tcpKeepAliveListener{ln.(*net.TCPListener)})
+}
+
+func (srv *Server) Serve(l net.Listener) error {
+	.......忽略，Accept链接，
+	for {
+		rw, e := l.Accept()
+		if e != nil {
+			select {
+			case <-srv.getDoneChan():
+				return ErrServerClosed
+			default:
+			}
+			if ne, ok := e.(net.Error); ok && ne.Temporary() {
+				if tempDelay == 0 {
+					tempDelay = 5 * time.Millisecond
+				} else {
+					tempDelay *= 2
+				}
+				if max := 1 * time.Second; tempDelay > max {
+					tempDelay = max
+				}
+				srv.logf("http: Accept error: %v; retrying in %v", e, tempDelay)
+				time.Sleep(tempDelay)
+				continue
+			}
+			return e
+		}
+		tempDelay = 0
+		c := srv.newConn(rw)   
+		c.setState(c.rwc, StateNew) // before Serve can return
+		go c.serve(ctx)   //建立协程去serve
+	}
+}
+```
+详细可以阅读
+```
+func (c *conn) serve(ctx context.Context) 
+```
+
+# 重要数据结构
+```
+// A conn represents the server side of an HTTP connection.
+type conn struct {
+...
+}
+
+readRequest    serve  setState close  closeWriteAndWait
+```
