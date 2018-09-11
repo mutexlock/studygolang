@@ -124,7 +124,7 @@ func (srv *Server) Serve(l net.Listener) error {
 func (c *conn) serve(ctx context.Context) 
 ```
 
-# 重要数据结构
+# 重要数据结构conn
 ```
 // A conn represents the server side of an HTTP connection.
 type conn struct {
@@ -133,3 +133,4 @@ type conn struct {
 
 readRequest    serve  setState close  closeWriteAndWait
 ```
+明天学习readRequest等方法
