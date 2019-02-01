@@ -14,6 +14,11 @@ func main() {
 	// the internal goroutine started by gen.
 	gen := func(ctx context.Context) <-chan int {
 		dst := make(chan int)
+		A
+		A
+		A
+		A
+		A
 		n := 1
 		go func() {
 			for {

@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	//	"strings"
+	"sync"
 	"unicode/utf8"
 )
 
@@ -12,7 +13,6 @@ func main() {
 	//var hh string
 	str := "hello 你好"
 	fmt.Println(str[0])
-	fmt.Println(strings)
 	for i, v := range str {
 		fmt.Println(i, v, str[i])
 	}
@@ -22,4 +22,23 @@ func main() {
 	fmt.Println(by)
 	fmt.Println(utf8.RuneCountInString(str))
 
+	var s string
+
+	//string 不能和nil比较
+	if s == "" {
+		fmt.Println("is Empty", len(s))
+	}
+
+}
+
+type WaitGroupWrapper struct {
+	sync.WaitGroup
+}
+
+func (w *WaitGroupWrapper) Wapper(f func()) {
+	w.Add()
+	go func() {
+		f()
+		w.Done()
+	}()
 }
