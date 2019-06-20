@@ -10,7 +10,7 @@ import (
 var localConfig map[string]interface{}
 
 func main() {
-	content, err := ioutil.ReadFile("config.toml")
+	content, err := ioutil.ReadFile("./config.toml")
 	if err != nil {
 		panic(err)
 	}

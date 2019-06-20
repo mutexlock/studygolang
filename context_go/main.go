@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	//	"time"
 )
 
 func main() {
@@ -14,11 +13,6 @@ func main() {
 	// the internal goroutine started by gen.
 	gen := func(ctx context.Context) <-chan int {
 		dst := make(chan int)
-		A
-		A
-		A
-		A
-		A
 		n := 1
 		go func() {
 			for {
@@ -38,14 +32,8 @@ func main() {
 
 	for n := range gen(ctx) {
 		fmt.Println(n)
-		if n == 10 {
+		if n == 5 {
 			break
 		}
 	}
-	// Output:
-	// 1
-	// 2
-	// 3
-	// 4
-	// 5
 }

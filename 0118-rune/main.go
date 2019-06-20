@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	//	"strings"
-	"sync"
+	//	"sync"
 	"unicode/utf8"
 )
 
@@ -31,14 +31,14 @@ func main() {
 
 }
 
-type WaitGroupWrapper struct {
-	sync.WaitGroup
-}
+// type WaitGroupWrapper struct {
+// 	sync.WaitGroup
+// }
 
-func (w *WaitGroupWrapper) Wapper(f func()) {
-	w.Add()
-	go func() {
-		f()
-		w.Done()
-	}()
-}
+// func (w *WaitGroupWrapper) Wapper(f func()) {
+// 	w.Add()
+// 	go func() {
+// 		f()
+// 		w.Done()
+// 	}()
+// }
